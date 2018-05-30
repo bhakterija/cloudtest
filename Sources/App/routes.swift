@@ -8,8 +8,12 @@ public func routes(_ router: Router) throws {
     }
 
     router.get("jstest", "get") { req -> Future<[JSTest]> in
-        let jstest = JSTest(id: nil, testStr: "This is a test string", testInt: 108, testReal: 1.61803)
-        return Future.map(on: req) { return [jstest] }
+        let jstest1 = JSTest(id: nil, testStr: "This is a test string1", testInt: 16, testReal: 1.61803)
+        let jstest2 = JSTest(id: nil, testStr: "This is a test string2", testInt: 108, testReal: 3.14)
+        return Future.map(on: req) { return [jstest1, jstest2] }
+    }
+    router.post(JSTest.self, at: "jstest", "post") { req, jstest -> Future<JSTest> in
+        return jstest.save(on: req)
     }
     
     // Example of configuring a controller
